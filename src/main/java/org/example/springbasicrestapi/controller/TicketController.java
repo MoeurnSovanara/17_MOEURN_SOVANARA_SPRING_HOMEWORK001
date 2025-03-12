@@ -17,18 +17,18 @@ import java.util.List;
 public class TicketController {
     List<Ticket> tickets=new ArrayList<>();
 
-    int id=4;
+
     public TicketController() {
-        tickets.add(new Ticket(1,"Sros Lina","2024-11-11","Station E","Station F",70,false,TicketStatus.CANCELED,"EF3"));
-        tickets.add(new Ticket(2,"Pork Sivheng","2025-01-01","Station A","Station B",170,true,TicketStatus.COMPLETED,"AB1"));
-        tickets.add(new Ticket(3,"Dara Sokchhay","2025-02-01","Station C","Station D",80,false,TicketStatus.BOOKED,"CD2"));
+        tickets.add(new Ticket("Sros Lina","2024-11-11","Station E","Station F",70,false,TicketStatus.CANCELED,"EF3"));
+        tickets.add(new Ticket("Pork Sivheng","2025-01-01","Station A","Station B",170,true,TicketStatus.COMPLETED,"AB1"));
+        tickets.add(new Ticket("Dara Sokchhay","2025-02-01","Station C","Station D",80,false,TicketStatus.BOOKED,"CD2"));
     }
 
 
     //i)   Create a Ticket
     @PostMapping
     public List<Ticket> postTickets(@RequestBody TicketResquest ticket) {
-        tickets.add(new Ticket(id++,ticket.getPassengerName(),ticket.getTravelDate(),
+        tickets.add(new Ticket(ticket.getPassengerName(),ticket.getTravelDate(),
                 ticket.getSourceStation(),ticket.getDestinationStation(),ticket.getPrice(),ticket.isPaymentStatus(),
                 ticket.getTicketStatus(),ticket.getSeatNumber()));
         return tickets;
@@ -40,11 +40,7 @@ public class TicketController {
     public ResponseEntity<ApiResponse<List<Ticket>>> getAllTickets() {
         ApiResponse<List<Ticket>> response =new ApiResponse<>(true,"Success",HttpStatus.OK,tickets, LocalDateTime.now());
         return ResponseEntity.ok(response);
-
     }
-
-
-
 
     //iii)   Retrieve a Ticket by Id(using @PathVariable)
     @GetMapping("/{ticket-Id}")
@@ -110,7 +106,7 @@ public class TicketController {
             if (ticket.getTicketId()==id){
                 tickets.remove(ticket);
                 return;
-            }
+            } 
         }
 
     }
@@ -121,19 +117,14 @@ public class TicketController {
 
     //b)   Create multiple tickets in a single request.
     @PostMapping("/bulk")
-    public List<Ticket> bulkTicket(@RequestBody List<Ticket> mulktickets) {
-        tickets.addAll(id, mulktickets);
+    public List<Ticket> bulkTicket(@RequestBody List<Ticket> multiplyTickets) {
+        tickets.addAll(multiplyTickets);
         return tickets;
     }
 
     // c)   Update payment status for multiple ticket IDs.
 
-//    @PutMapping
-//    public List<Ticket> updateBulkTicket(@RequestBody Boolean paymentStatus,@RequestBody Ticket id) {
-//        if( )) {}
-//
-//        return tickets;
-//    }
+
 
 
 
